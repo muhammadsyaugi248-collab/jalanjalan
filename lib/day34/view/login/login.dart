@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/day34/services/apilogin.dart';
-import 'package:jalanjalan/day34/view/maps/home.dart';
+import 'package:jalanjalan/day34/view/home/home.dart';
 import 'package:jalanjalan/day34/view/register/register.dart';
 
 // Tidak dihapus: warna default Anda tetap ada

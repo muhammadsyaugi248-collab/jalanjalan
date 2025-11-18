@@ -21,27 +21,17 @@ class ApiServiceLogin {
       log("LOGIN STATUS: ${response.statusCode}");
       log("LOGIN RESPONSE RAW: ${response.body}");
 
-      // Pastikan response body merupakan JSON valid
-      dynamic jsonResponse;
-      try {
-        jsonResponse = jsonDecode(response.body);
-      } catch (_) {
-        throw Exception("Format respons server tidak valid");
-      }
+      final jsonResponse = jsonDecode(response.body);
 
-      log("LOGIN PARSED RESPONSE: $jsonResponse");
-
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return LoginModel.fromJson(jsonResponse);
       } else {
         final msg = (jsonResponse is Map && jsonResponse["message"] != null)
             ? jsonResponse["message"].toString()
             : "Login gagal";
-
         throw Exception(msg);
       }
     } catch (e) {
-      // PERBAIKAN PENTING UNTUK FLUTTER WEB
       throw Exception(e.toString());
     }
   }

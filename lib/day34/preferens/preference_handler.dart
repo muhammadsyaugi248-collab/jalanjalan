@@ -1,37 +1,43 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHandler {
-  static const String isLogin = "isLogin";
-  static const String token = "token";
+  static const String _isLogin = "isLogin";
+  static const String _token = "token";
+  static const String _darkMode = "darkMode";
 
-  /// SAVE LOGIN STATUS
-  static Future<void> saveLogin(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(isLogin, value);
+  static Future<void> saveLogin(bool v) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setBool(_isLogin, v);
   }
 
-  /// GET LOGIN STATUS
   static Future<bool?> getLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(isLogin);
+    final p = await SharedPreferences.getInstance();
+    return p.getBool(_isLogin);
   }
 
-  /// REMOVE LOGIN STATUS
-  static Future<void> removeLogin() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove(isLogin);
-    prefs.remove(token);
+  static Future<void> saveToken(String token) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setString(_token, token);
   }
 
-  /// SAVE TOKEN
-  static Future<void> saveToken(String value) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(token, value);
-  }
-
-  /// GET TOKEN
   static Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(token);
+    final p = await SharedPreferences.getInstance();
+    return p.getString(_token);
+  }
+
+  static Future<void> removeLogin() async {
+    final p = await SharedPreferences.getInstance();
+    await p.remove(_isLogin);
+    await p.remove(_token);
+  }
+
+  static Future<void> saveDarkMode(bool v) async {
+    final p = await SharedPreferences.getInstance();
+    await p.setBool(_darkMode, v);
+  }
+
+  static Future<bool?> getDarkMode() async {
+    final p = await SharedPreferences.getInstance();
+    return p.getBool(_darkMode);
   }
 }

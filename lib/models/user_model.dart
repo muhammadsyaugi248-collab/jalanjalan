@@ -1,15 +1,19 @@
 class UserModel {
+  final int? id;
   final String name;
   final String email;
-  final String batch;
+  final String? batch;
 
-  UserModel({required this.name, required this.email, required this.batch});
+  UserModel({this.id, required this.name, required this.email, this.batch});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
-      batch: json['batch'] ?? '',
+      id: json['id'] is int
+          ? json['id']
+          : int.tryParse(json['id']?.toString() ?? ''),
+      name: json['name']?.toString() ?? '',
+      email: json['email']?.toString() ?? '',
+      batch: json['batch']?.toString(),
     );
   }
 }
