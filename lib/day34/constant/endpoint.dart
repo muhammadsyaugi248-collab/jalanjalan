@@ -10,8 +10,14 @@ class Endpoint {
   static const String training = "$baseUrl/trainings";
 
   // Attendance
-  static const String attendanceIn = "$baseUrl/attendance-in";
-  static const String attendanceOut = "$baseUrl/attendance-out";
+  static const String attendanceIn = "$baseUrl/absen/check-in";
+  static const String attendanceOut = "$baseUrl/absen/check-out";
+  //history
+  static const String historyToday =
+      "$baseUrl/absen/today?attendance_date=2025-11-18";
+  static const String statistic =
+      "$baseUrl/absen/stats?start=2025-07-31&end=2025-12-31";
+  static const String historyAbsen = "$baseUrl/absen/history";
 
   // Profile & Absence History
   static const String profile = "$baseUrl/profile";

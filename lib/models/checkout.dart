@@ -1,60 +1,44 @@
 // To parse this JSON data, do
 //
-//     final historyAbsen = historyAbsenFromJson(jsonString);
+//     final checkOut = checkOutFromJson(jsonString);
 
 import 'dart:convert';
 
-HistoryAbsen historyAbsenFromJson(String str) =>
-    HistoryAbsen.fromJson(json.decode(str));
+CheckOut checkOutFromJson(String str) => CheckOut.fromJson(json.decode(str));
 
-String historyAbsenToJson(HistoryAbsen data) => json.encode(data.toJson());
+String checkOutToJson(CheckOut data) => json.encode(data.toJson());
 
-class HistoryAbsen {
+class CheckOut {
   String? message;
-  List<Datum>? data;
+  Data? data;
 
-  HistoryAbsen({this.message, this.data});
+  CheckOut({this.message, this.data});
 
-  factory HistoryAbsen.fromJson(Map<String, dynamic> json) => HistoryAbsen(
+  factory CheckOut.fromJson(Map<String, dynamic> json) => CheckOut(
     message: json["message"],
-    data: json["data"] == null
-        ? []
-        : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    data: json["data"] == null ? null : Data.fromJson(json["data"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "message": message,
-    "data": data == null
-        ? []
-        : List<dynamic>.from(data!.map((x) => x.toJson())),
-  };
+  Map<String, dynamic> toJson() => {"message": message, "data": data?.toJson()};
 }
 
-class Datum {
+class Data {
   int? id;
   DateTime? attendanceDate;
   String? checkInTime;
   String? checkOutTime;
-  double? checkInLat;
-  double? checkInLng;
-  double? checkOutLat;
-  double? checkOutLng;
   String? checkInAddress;
   String? checkOutAddress;
   String? checkInLocation;
   String? checkOutLocation;
   String? status;
-  String? alasanIzin;
+  dynamic alasanIzin;
 
-  Datum({
+  Data({
     this.id,
     this.attendanceDate,
     this.checkInTime,
     this.checkOutTime,
-    this.checkInLat,
-    this.checkInLng,
-    this.checkOutLat,
-    this.checkOutLng,
     this.checkInAddress,
     this.checkOutAddress,
     this.checkInLocation,
@@ -63,17 +47,13 @@ class Datum {
     this.alasanIzin,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
     attendanceDate: json["attendance_date"] == null
         ? null
         : DateTime.parse(json["attendance_date"]),
     checkInTime: json["check_in_time"],
     checkOutTime: json["check_out_time"],
-    checkInLat: json["check_in_lat"]?.toDouble(),
-    checkInLng: json["check_in_lng"]?.toDouble(),
-    checkOutLat: json["check_out_lat"]?.toDouble(),
-    checkOutLng: json["check_out_lng"]?.toDouble(),
     checkInAddress: json["check_in_address"],
     checkOutAddress: json["check_out_address"],
     checkInLocation: json["check_in_location"],
@@ -88,10 +68,6 @@ class Datum {
         "${attendanceDate!.year.toString().padLeft(4, '0')}-${attendanceDate!.month.toString().padLeft(2, '0')}-${attendanceDate!.day.toString().padLeft(2, '0')}",
     "check_in_time": checkInTime,
     "check_out_time": checkOutTime,
-    "check_in_lat": checkInLat,
-    "check_in_lng": checkInLng,
-    "check_out_lat": checkOutLat,
-    "check_out_lng": checkOutLng,
     "check_in_address": checkInAddress,
     "check_out_address": checkOutAddress,
     "check_in_location": checkInLocation,
