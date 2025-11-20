@@ -1,6 +1,5 @@
 class Endpoint {
-  static const String baseUrl = "https://appabsensi.mobileprojp.com/ap";
-
+  static const String baseUrl = "https://appabsensi.mobileprojp.com/api";
   // Auth
   static const String register = "$baseUrl/register";
   static const String login = "$baseUrl/login";

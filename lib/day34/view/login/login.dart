@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/day34/services/apilogin.dart';
-import 'package:jalanjalan/day34/view/home/home.dart';
+import 'package:jalanjalan/day34/view/bottomnav.dart';
 import 'package:jalanjalan/day34/view/register/register.dart';
 
 // Tidak dihapus: warna default Anda tetap ada
@@ -73,7 +73,7 @@ class _SignInScreenState extends State<SignInScreen>
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => const Bottomnav()),
         );
       }
     } catch (e) {

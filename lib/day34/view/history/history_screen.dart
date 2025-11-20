@@ -353,6 +353,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             ),
         ],
       ),
+      backgroundColor: Colors.white,
     );
   }
 }
