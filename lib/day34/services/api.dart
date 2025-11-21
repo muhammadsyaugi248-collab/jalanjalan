@@ -10,6 +10,9 @@ import 'package:jalanjalan/models/historytoday.dart';
 import 'package:jalanjalan/models/statistik.dart';
 
 class AuthAPI {
+  // ============================
+  // REGISTER
+  // ============================
   static Future<Map<String, dynamic>> registerUser({
     required String name,
     required String email,
@@ -39,6 +42,9 @@ class AuthAPI {
     throw Exception(body['message'] ?? 'Gagal register');
   }
 
+  // ============================
+  // LOGIN
+  // ============================
   static Future<Map<String, dynamic>> login({
     required String email,
     required String password,
@@ -50,10 +56,12 @@ class AuthAPI {
     );
     final body = jsonDecode(res.body);
     if (res.statusCode == 200) return body;
-    // ambil message jika ada
     throw Exception(body['message'] ?? 'Login gagal');
   }
 
+  // ============================
+  // CHECK-IN DETAIL (pakai waktu & lokasi)
+  // ============================
   static Future<Checkin> checkIn({
     required String attendanceDate,
     required String CheckInTime,
@@ -86,6 +94,9 @@ class AuthAPI {
     }
   }
 
+  // ============================
+  // CHECK-OUT DETAIL (pakai waktu & lokasi)
+  // ============================
   static Future<CheckOut> checkOut({
     required String attendanceDate,
     required String CheckInTime,
@@ -118,13 +129,16 @@ class AuthAPI {
     }
   }
 
+  // ============================
+  // STATISTIC
+  // ============================
   Future<Statistic> getStatistic() async {
     final String? token = await PreferenceHandler.getToken();
     if (token == null) {
       throw Exception("Token tidak ditemukan. User belum login.");
     }
 
-    final url = Uri.parse(Endpoint.statistic); // pastikan endpointnya benar
+    final url = Uri.parse(Endpoint.statistic);
 
     final response = await http.get(
       url,
@@ -141,6 +155,9 @@ class AuthAPI {
     }
   }
 
+  // ============================
+  // HISTORY TODAY
+  // ============================
   Future<HistoryToday> getHistoryToday() async {
     final String? token = await PreferenceHandler.getToken();
     if (token == null) throw Exception("Token tidak ditemukan.");
@@ -152,16 +169,31 @@ class AuthAPI {
       headers: {"Authorization": "Bearer $token", "Accept": "application/json"},
     );
 
-    print("RAW HISTORY: ${response.body}");
+    print("=== HISTORY TODAY DEBUG ===");
+    print("URL: $url");
+    print("STATUS: ${response.statusCode}");
+    print("BODY: ${response.body}");
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       return HistoryToday.fromJson(jsonData);
     } else {
-      throw Exception("Gagal mengambil data hari ini");
+      // PERBAIKAN:
+      // kalau belum ada data hari ini, jangan lempar error,
+      // cukup kembalikan objek kosong agar dashboard tetap jalan.
+      try {
+        final body = jsonDecode(response.body);
+        final msg = body['message']?.toString() ?? 'Belum ada data hari ini';
+        return HistoryToday(message: msg, data: null);
+      } catch (_) {
+        return HistoryToday(message: "Belum ada data hari ini", data: null);
+      }
     }
   }
 
+  // ============================
+  // HISTORY ABSEN
+  // ============================
   static Future<HistoryAbsen> getHistoryAbsen() async {
     final String? token = await PreferenceHandler.getToken();
     if (token == null) throw Exception("Token tidak ditemukan.");

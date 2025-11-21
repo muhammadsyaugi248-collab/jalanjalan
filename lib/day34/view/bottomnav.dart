@@ -1,9 +1,9 @@
 import 'package:bottom_bar_matu/bottom_bar/bottom_bar_bubble.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
+import 'package:jalanjalan/day34/view/dashboard_screen.dart';
 import 'package:jalanjalan/day34/view/history/history_screen.dart';
 import 'package:jalanjalan/day34/view/home/home.dart';
-import 'package:flutter/scheduler.dart';
 
 class Bottomnav extends StatefulWidget {
   const Bottomnav({super.key});
@@ -17,9 +17,9 @@ class _BottomnavState extends State<Bottomnav> {
   final PageController _pageController = PageController();
 
   final List<Widget> _pages = const [
+    DashboardScreen(),
     HomeScreen(),
     HistoryScreen(),
-    Center(child: Text("Chat")),
     Center(child: Text("Notifications")),
     Center(child: Text("Settings")),
   ];
