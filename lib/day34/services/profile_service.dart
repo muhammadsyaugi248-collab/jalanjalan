@@ -1,5 +1,5 @@
-// lib/day34/services/profile_service.dart
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:jalanjalan/day34/constant/endpoint.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
@@ -9,12 +9,18 @@ class ProfileService {
   /// Ambil profil user (GET /profile)
   static Future<UserModel?> getProfile() async {
     final token = await PreferenceHandler.getToken();
+
     final headers = {
       "Accept": "application/json",
       if (token != null) "Authorization": "Bearer $token",
     };
 
+    print("GET PROFILE -> TOKEN: $token");
+
     final res = await http.get(Uri.parse(Endpoint.profile), headers: headers);
+
+    print("GET PROFILE STATUS: ${res.statusCode}");
+    print("GET PROFILE BODY  : ${res.body}");
 
     if (res.statusCode == 200) {
       final jsonRes = jsonDecode(res.body);
@@ -29,31 +35,45 @@ class ProfileService {
     }
   }
 
-  /// Edit profil user (PUT /edit-profile or PUT /profile tergantung backend)
-  /// fields: name, email (sesuaikan jika ada field lain)
+  /// Edit profil user (PUT /profile)
+  /// name & email wajib
+  /// phoneNumber, address, jenisKelamin opsional
   static Future<String> editProfile({
     required String name,
     required String email,
+    String? phoneNumber,
+    String? address,
+    String? jenisKelamin,
   }) async {
     final token = await PreferenceHandler.getToken();
+
     final headers = {
       "Accept": "application/json",
       if (token != null) "Authorization": "Bearer $token",
     };
 
-    // Gunakan Endpoint.editProfile (pastikan sudah ada di Endpoint)
-    final uri = Uri.parse(Endpoint.editProfile);
+    final uri = Uri.parse(Endpoint.profile);
 
-    final res = await http.put(
-      uri,
-      headers: headers,
-      body: {"name": name, "email": email},
-    );
+    final body = <String, String>{
+      "name": name,
+      "email": email,
+      if (phoneNumber != null) "phone_number": phoneNumber,
+      if (address != null) "address": address,
+      if (jenisKelamin != null) "jenis_kelamin": jenisKelamin,
+    };
+
+    print("EDIT PROFILE -> TOKEN : $token");
+    print("EDIT PROFILE -> URL   : ${uri.toString()}");
+    print("EDIT PROFILE -> BODY  : $body");
+
+    final res = await http.put(uri, headers: headers, body: body);
+
+    print("EDIT PROFILE STATUS: ${res.statusCode}");
+    print("EDIT PROFILE RESP  : ${res.body}");
 
     final jsonRes = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      // server mungkin mengembalikan message
       return jsonRes['message']?.toString() ?? 'Profil berhasil diperbarui';
     } else if (res.statusCode == 422 && jsonRes['errors'] != null) {
       // Validasi error dari server (Laravel typical)

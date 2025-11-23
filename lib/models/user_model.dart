@@ -12,6 +12,12 @@ class UserModel {
   /// Contoh tampilan: "Laki-laki" / "Perempuan"
   final String? jenisKelamin;
 
+  /// Contoh tampilan: "+62 8xx ..."
+  final String? phoneNumber;
+
+  /// Contoh tampilan: "Jl. Sudirman No. 123, Jakarta Pusat"
+  final String? address;
+
   UserModel({
     this.id,
     required this.name,
@@ -19,6 +25,8 @@ class UserModel {
     this.batch,
     this.training,
     this.jenisKelamin,
+    this.phoneNumber,
+    this.address,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -59,7 +67,6 @@ class UserModel {
       if (raw == null) return null;
       final g = raw.toLowerCase();
 
-      // Sesuaikan dengan kode di backend kamu
       if (g == 'l' || g == 'laki' || g == 'laki-laki' || g == 'male') {
         return 'Laki-laki';
       }
@@ -67,12 +74,23 @@ class UserModel {
         return 'Perempuan';
       }
 
-      // fallback: tampilkan apa adanya
       return raw;
     }
 
     final rawGender =
         json['jenis_kelamin']?.toString() ?? json['gender']?.toString();
+
+    // phone & address: coba beberapa nama field yang umum
+    final phone =
+        json['phone_number']?.toString() ??
+        json['phone']?.toString() ??
+        json['no_hp']?.toString() ??
+        json['telp']?.toString();
+
+    final addr =
+        json['address']?.toString() ??
+        json['alamat']?.toString() ??
+        json['alamat_lengkap']?.toString();
 
     return UserModel(
       id: json['id'] is int
@@ -83,6 +101,8 @@ class UserModel {
       batch: parseBatch(json['batch']),
       training: parseTraining(json['training']),
       jenisKelamin: mapGender(rawGender),
+      phoneNumber: phone,
+      address: addr,
     );
   }
 }

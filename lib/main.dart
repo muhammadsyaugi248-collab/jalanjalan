@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jalanjalan/day34/view/bottomnav.dart';
+import 'package:jalanjalan/day34/view/login/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 255, 0, 0),
         ),
       ),
-      home: Bottomnav(),
+      home: SignInScreen(),
     );
   }
 }

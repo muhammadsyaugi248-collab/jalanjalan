@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
-import 'package:jalanjalan/day34/services/attendance_service.dart';
 import 'package:jalanjalan/day34/services/api.dart';
+import 'package:jalanjalan/day34/services/attendance_service.dart';
 import 'package:jalanjalan/day34/view/login/login.dart';
-
-import 'package:jalanjalan/models/user_model.dart';
-import 'package:jalanjalan/models/statistik.dart';
 import 'package:jalanjalan/models/historytoday.dart';
+import 'package:jalanjalan/models/statistik.dart';
+import 'package:jalanjalan/models/user_model.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -488,7 +486,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final gender = _user?.jenisKelamin ?? "-";
 
     return Container(
-      margin: const EdgeInsets.only(top: 22, bottom: 24),
+      margin: const EdgeInsets.only(top: 22),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1),
@@ -510,6 +508,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _buildInfoRow("Training", training),
           _buildDivider(),
           _buildInfoRow("Jenis Kelamin", gender),
+        ],
+      ),
+    );
+  }
+
+  // NEW: PERSONAL INFORMATION SECTION
+  Widget _buildPersonalInfo() {
+    final phone = _user?.phoneNumber ?? "-";
+    final address = _user?.address ?? "-";
+
+    return Container(
+      margin: const EdgeInsets.only(top: 16, bottom: 24),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "PERSONAL INFORMATION",
+            style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 1.1),
+          ),
+          const SizedBox(height: 14),
+          _buildInfoRow("Phone Number", phone),
+          _buildDivider(),
+          _buildInfoRow("Address", address),
         ],
       ),
     );
@@ -592,6 +617,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     _buildStatisticsSection(),
                     _buildAttendanceToday(),
                     _buildAccountInfo(),
+                    _buildPersonalInfo(), // <- PERSONAL INFORMATION baru
                   ],
                 ),
               ),

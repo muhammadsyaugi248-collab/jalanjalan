@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/view/dashboard_screen.dart';
 import 'package:jalanjalan/day34/view/history/history_screen.dart';
 import 'package:jalanjalan/day34/view/home/home.dart';
+import 'package:jalanjalan/day34/view/profils/profile_screen.dart';
 
 class Bottomnav extends StatefulWidget {
   const Bottomnav({super.key});
@@ -20,7 +21,7 @@ class _BottomnavState extends State<Bottomnav> {
     DashboardScreen(),
     HomeScreen(),
     HistoryScreen(),
-    Center(child: Text("Notifications")),
+    ProfileScreen(),
     Center(child: Text("Settings")),
   ];
 
@@ -74,9 +75,9 @@ class _BottomnavState extends State<Bottomnav> {
         selectedIndex: _index,
         items: [
           BottomBarItem(iconData: Icons.home),
+          BottomBarItem(iconData: Icons.date_range),
           BottomBarItem(iconData: Icons.history),
-          BottomBarItem(iconData: Icons.chat),
-          BottomBarItem(iconData: Icons.notifications),
+          BottomBarItem(iconData: Icons.person),
           BottomBarItem(iconData: Icons.settings),
         ],
         backgroundColor: Colors.white,
