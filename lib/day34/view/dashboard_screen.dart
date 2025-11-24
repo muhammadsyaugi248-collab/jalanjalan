@@ -151,16 +151,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Text(
+                "Dashboard",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
               Row(
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Hello, ",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                ],
-              ),
-              Row(
-                children: [
                   Text(
                     name,
                     style: const TextStyle(
@@ -181,23 +182,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         const SizedBox(width: 12),
-        Container(
-          height: 54,
-          width: 54,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.black,
-          ),
-          child: Center(
-            child: Text(
-              name.isNotEmpty ? name[0].toUpperCase() : "?",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+        Column(
+          children: [
+            // avatar
+            Container(
+              height: 54,
+              width: 54,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black,
+              ),
+              child: Center(
+                child: Text(
+                  name.isNotEmpty ? name[0].toUpperCase() : "?",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
+            const SizedBox(height: 8),
+            // tombol logout kecil di bawah avatar
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: _logout,
+              icon: const Icon(Icons.logout, size: 20),
+              tooltip: "Logout",
+            ),
+          ],
         ),
       ],
     );
@@ -483,10 +498,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final email = _user?.email ?? "-";
     final batch = _user?.batch ?? "-";
     final training = _user?.training ?? "-";
-    final gender = _user?.jenisKelamin ?? "-";
+
+    // mapping jenis kelamin biar rapi
+    final rawGender = _user?.jenisKelamin?.toUpperCase();
+    final gender = rawGender == 'L'
+        ? 'Laki-laki'
+        : rawGender == 'P'
+        ? 'Perempuan'
+        : (rawGender ?? '-');
 
     return Container(
-      margin: const EdgeInsets.only(top: 22),
+      margin: const EdgeInsets.only(top: 22, bottom: 24),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1),
@@ -508,33 +530,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _buildInfoRow("Training", training),
           _buildDivider(),
           _buildInfoRow("Jenis Kelamin", gender),
-        ],
-      ),
-    );
-  }
-
-  // NEW: PERSONAL INFORMATION SECTION
-  Widget _buildPersonalInfo() {
-    final phone = _user?.phoneNumber ?? "-";
-    final address = _user?.address ?? "-";
-
-    return Container(
-      margin: const EdgeInsets.only(top: 16, bottom: 24),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "PERSONAL INFORMATION",
-            style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: 1.1),
-          ),
-          const SizedBox(height: 14),
-          _buildInfoRow("Phone Number", phone),
-          _buildDivider(),
-          _buildInfoRow("Address", address),
         ],
       ),
     );
@@ -581,47 +576,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        title: const Text(
-          "Dashboard",
-          style: TextStyle(fontWeight: FontWeight.w600),
-        ),
-        actions: [
-          IconButton(
-            onPressed: _logout,
-            icon: const Icon(Icons.logout),
-            tooltip: "Logout",
-          ),
-        ],
-      ),
-      body: _isLoading && _user == null && _statistic == null && _today == null
-          ? const Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: _loadData,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildErrorBanner(),
-                    _buildHeader(),
-                    _buildCurrentTimeCard(),
-                    _buildCurvedDivider(),
-                    _buildStatisticsSection(),
-                    _buildAttendanceToday(),
-                    _buildAccountInfo(),
-                    _buildPersonalInfo(), // <- PERSONAL INFORMATION baru
-                  ],
+      // AppBar DIHAPUS -> pakai SafeArea + header custom
+      body: SafeArea(
+        child:
+            _isLoading && _user == null && _statistic == null && _today == null
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: _loadData,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildErrorBanner(),
+                      _buildHeader(),
+                      _buildCurrentTimeCard(),
+                      _buildCurvedDivider(),
+                      _buildStatisticsSection(),
+                      _buildAttendanceToday(),
+                      _buildAccountInfo(),
+                    ],
+                  ),
                 ),
               ),
-            ),
+      ),
     );
   }
 }

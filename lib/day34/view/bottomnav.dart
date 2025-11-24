@@ -3,7 +3,7 @@ import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/view/dashboard_screen.dart';
 import 'package:jalanjalan/day34/view/history/history_screen.dart';
-import 'package:jalanjalan/day34/view/home/home.dart';
+import 'package:jalanjalan/day34/view/absensi/absensi.dart';
 import 'package:jalanjalan/day34/view/profils/profile_screen.dart';
 
 class Bottomnav extends StatefulWidget {

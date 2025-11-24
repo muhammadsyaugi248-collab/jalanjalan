@@ -20,6 +20,7 @@ class Endpoint {
   // Profile & Absence
   static const String profile = "$baseUrl/profile";
   static const String editProfile = profile;
+  static const String editProfilePhoto = "$baseUrl/profile/photo";
   // Delete absen (?id=123)
   static const String deleteAbsen = "$baseUrl/absen";
 }

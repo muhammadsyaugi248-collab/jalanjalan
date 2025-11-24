@@ -418,12 +418,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard Absensi'),
-        actions: [
-          IconButton(onPressed: _logout, icon: const Icon(Icons.logout)),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Absensi')),
       body: SingleChildScrollView(
         child: Column(
           children: [

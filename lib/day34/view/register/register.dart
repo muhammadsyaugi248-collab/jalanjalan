@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:jalanjalan/day34/constant/endpoint.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/day34/services/api_training.dart';
-import 'package:jalanjalan/day34/view/home/home.dart';
+import 'package:jalanjalan/day34/view/absensi/absensi.dart';
 import 'package:jalanjalan/day34/view/login/login.dart';
 
 const Color kPrimaryColor = Colors.black;

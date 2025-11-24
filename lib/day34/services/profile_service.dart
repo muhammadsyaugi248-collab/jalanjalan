@@ -1,12 +1,13 @@
-import 'dart:convert';
+// lib/day34/services/profile_service.dart
 
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:jalanjalan/day34/constant/endpoint.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/models/user_model.dart';
 
 class ProfileService {
-  /// Ambil profil user (GET /profile)
+  /// GET /profile
   static Future<UserModel?> getProfile() async {
     final token = await PreferenceHandler.getToken();
 
@@ -35,9 +36,7 @@ class ProfileService {
     }
   }
 
-  /// Edit profil user (PUT /profile)
-  /// name & email wajib
-  /// phoneNumber, address, jenisKelamin opsional
+  /// PUT /profile
   static Future<String> editProfile({
     required String name,
     required String email,
@@ -76,7 +75,6 @@ class ProfileService {
     if (res.statusCode == 200) {
       return jsonRes['message']?.toString() ?? 'Profil berhasil diperbarui';
     } else if (res.statusCode == 422 && jsonRes['errors'] != null) {
-      // Validasi error dari server (Laravel typical)
       final errors = jsonRes['errors'];
       if (errors is Map && errors.isNotEmpty) {
         final firstKey = errors.keys.first;

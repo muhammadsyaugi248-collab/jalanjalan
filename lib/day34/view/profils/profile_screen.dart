@@ -59,13 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       MaterialPageRoute(builder: (_) => EditProfileScreen(user: _user!)),
     );
 
-    // result adalah UserModel terbaru dari backend (setelah getProfile)
     if (result is UserModel && mounted) {
       setState(() {
         _user = result;
       });
     }
   }
+
+  // ================= UI HELPER =================
 
   Widget _buildAvatar() {
     final name = _user?.name ?? '-';
@@ -114,12 +115,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  /// mapping jenis_kelamin 'L' / 'P' jadi teks lengkap
+  String _genderLabel() {
+    final raw = _user?.jenisKelamin?.toUpperCase();
+    if (raw == 'L') return 'Laki-laki';
+    if (raw == 'P') return 'Perempuan';
+    return '-';
+  }
+
   Widget _buildAccountInfoCard() {
     final name = _user?.name ?? '-';
     final email = _user?.email ?? '-';
     final batch = _user?.batch ?? '-';
     final training = _user?.training ?? '-';
-    final gender = _user?.jenisKelamin ?? '-';
+    final gender = _genderLabel();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,85 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildPersonalInformationCard() {
-    final phone = _user?.phoneNumber ?? '-';
-    final address = _user?.address ?? '-';
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 24),
-        const Text(
-          'PERSONAL INFORMATION',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.0,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildPersonalRow('Phone Number', phone, withDivider: true),
-              _buildPersonalRow('Address', address),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPersonalRow(
-    String label,
-    String value, {
-    bool withDivider = false,
-  }) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text(
-                  label,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Text(
-                  value,
-                  textAlign: TextAlign.right,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 14),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (withDivider)
-          Divider(height: 1, thickness: 0.7, color: Colors.grey.shade300),
-      ],
-    );
-  }
+  // ================= BUILD =================
 
   @override
   Widget build(BuildContext context) {
@@ -330,7 +261,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                     _buildAvatar(),
                     _buildAccountInfoCard(),
-                    _buildPersonalInformationCard(),
                     const SizedBox(height: 24),
                   ],
                 ),
