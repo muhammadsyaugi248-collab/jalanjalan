@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/day34/services/apilogin.dart';
-import 'package:jalanjalan/day34/view/bottomnav.dart';
-import 'package:jalanjalan/day34/view/register/register.dart';
+import 'package:jalanjalan/day34/views/bottomnav.dart';
+import 'package:jalanjalan/day34/views/register/register.dart';
 
 // Tidak dihapus: warna default Anda tetap ada
 const Color kPrimaryColor = Colors.black;

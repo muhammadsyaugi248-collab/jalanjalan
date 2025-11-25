@@ -1,5 +1,6 @@
 class Endpoint {
   static const String baseUrl = "https://appabsensi.mobileprojp.com/api";
+
   // Auth
   static const String register = "$baseUrl/register";
   static const String login = "$baseUrl/login";
@@ -12,15 +13,18 @@ class Endpoint {
   static const String attendanceIn = "$baseUrl/absen/check-in";
   static const String attendanceOut = "$baseUrl/absen/check-out";
 
-  // history (base) - jangan hardcode query di sini
+  // ✅ IZIN – INI YANG BARU
+  static const String attendanceIzin = "$baseUrl/absen/izin";
+
+  // History & Statistik
   static const String historyToday = "$baseUrl/absen/today";
   static const String statistic = "$baseUrl/absen/stats";
   static const String historyAbsen = "$baseUrl/absen/history";
 
-  // Profile & Absence
+  // Profile
   static const String profile = "$baseUrl/profile";
-  static const String editProfile = profile;
-  static const String editProfilePhoto = "$baseUrl/profile/photo";
+  static const String editProfile = "$baseUrl/edit-profile";
+
   // Delete absen (?id=123)
   static const String deleteAbsen = "$baseUrl/absen";
 }

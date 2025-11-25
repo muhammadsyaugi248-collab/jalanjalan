@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:jalanjalan/day34/constant/endpoint.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
 import 'package:jalanjalan/day34/services/api_training.dart';
-import 'package:jalanjalan/day34/view/absensi/absensi.dart';
-import 'package:jalanjalan/day34/view/login/login.dart';
+import 'package:jalanjalan/day34/views/absensi/absensi.dart';
+import 'package:jalanjalan/day34/views/login/login.dart';
 
 const Color kPrimaryColor = Colors.black;
 
@@ -175,7 +175,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(message + ' (silakan login)'),
+                content: Text('$message (silakan login)'),
                 backgroundColor: Colors.green,
               ),
             );
@@ -319,7 +319,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                                 ),
                               ),
                               child: DropdownButtonFormField<String>(
-                                value: _selectedGender,
+                                initialValue: _selectedGender,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 12,
@@ -355,7 +355,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                                 ),
                               ),
                               child: DropdownButtonFormField<String>(
-                                value: _selectedBatchId,
+                                initialValue: _selectedBatchId,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 12,
@@ -391,7 +391,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen>
                               ),
                               child: DropdownButtonFormField<int>(
                                 isExpanded: true,
-                                value: _selectedTrainingId,
+                                initialValue: _selectedTrainingId,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 12,

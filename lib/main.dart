@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jalanjalan/day34/view/login/login.dart';
+import 'package:jalanjalan/day34/views/login/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -7,6 +7,7 @@ import 'package:jalanjalan/models/checkin.dart';
 import 'package:jalanjalan/models/checkout.dart';
 import 'package:jalanjalan/models/history_model.dart';
 import 'package:jalanjalan/models/historytoday.dart';
+import 'package:jalanjalan/models/izin%20model.dart';
 import 'package:jalanjalan/models/statistik.dart';
 
 class AuthAPI {
@@ -60,7 +61,7 @@ class AuthAPI {
   }
 
   // ============================
-  // CHECK-IN DETAIL (pakai waktu & lokasi)
+  // CHECK IN DETAIL (dengan lat/lng & alamat)
   // ============================
   static Future<Checkin> checkIn({
     required String attendanceDate,
@@ -95,7 +96,7 @@ class AuthAPI {
   }
 
   // ============================
-  // CHECK-OUT DETAIL (pakai waktu & lokasi)
+  // CHECK OUT DETAIL
   // ============================
   static Future<CheckOut> checkOut({
     required String attendanceDate,
@@ -130,7 +131,7 @@ class AuthAPI {
   }
 
   // ============================
-  // STATISTIC
+  // STATISTIK
   // ============================
   Future<Statistic> getStatistic() async {
     final String? token = await PreferenceHandler.getToken();
@@ -169,25 +170,13 @@ class AuthAPI {
       headers: {"Authorization": "Bearer $token", "Accept": "application/json"},
     );
 
-    print("=== HISTORY TODAY DEBUG ===");
-    print("URL: $url");
-    print("STATUS: ${response.statusCode}");
-    print("BODY: ${response.body}");
+    print("RAW HISTORY: ${response.body}");
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       return HistoryToday.fromJson(jsonData);
     } else {
-      // PERBAIKAN:
-      // kalau belum ada data hari ini, jangan lempar error,
-      // cukup kembalikan objek kosong agar dashboard tetap jalan.
-      try {
-        final body = jsonDecode(response.body);
-        final msg = body['message']?.toString() ?? 'Belum ada data hari ini';
-        return HistoryToday(message: msg, data: null);
-      } catch (_) {
-        return HistoryToday(message: "Belum ada data hari ini", data: null);
-      }
+      throw Exception("Gagal mengambil data hari ini");
     }
   }
 
@@ -212,6 +201,42 @@ class AuthAPI {
       return HistoryAbsen.fromJson(jsonData);
     } else {
       throw Exception("Gagal mengambil history absen");
+    }
+  }
+
+  // ============================
+  // IZIN  ✅ (BARU)
+  // ============================
+  static Future<Izin> izin({
+    required String attendanceDate,
+    required String alasanIzin,
+  }) async {
+    final String? token = await PreferenceHandler.getToken();
+
+    final url = Uri.parse(Endpoint.attendanceIzin);
+
+    final response = await http.post(
+      url,
+      headers: {"Accept": "application/json", "Authorization": "Bearer $token"},
+      body: {
+        "attendance_date": attendanceDate,
+        "status": "izin",
+        "alasan_izin": alasanIzin,
+      },
+    );
+
+    print("IZIN STATUS : ${response.statusCode}");
+    print("IZIN BODY   : ${response.body}");
+
+    final body = json.decode(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Izin.fromJson(body as Map<String, dynamic>);
+    } else {
+      final msg = (body is Map && body["message"] != null)
+          ? body["message"].toString()
+          : "Gagal mengajukan izin";
+      throw Exception(msg);
     }
   }
 }

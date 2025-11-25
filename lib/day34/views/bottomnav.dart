@@ -1,10 +1,11 @@
 import 'package:bottom_bar_matu/bottom_bar/bottom_bar_bubble.dart';
 import 'package:bottom_bar_matu/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:jalanjalan/day34/view/dashboard_screen.dart';
-import 'package:jalanjalan/day34/view/history/history_screen.dart';
-import 'package:jalanjalan/day34/view/absensi/absensi.dart';
-import 'package:jalanjalan/day34/view/profils/profile_screen.dart';
+import 'package:jalanjalan/day34/views/absensi/absensi.dart';
+import 'package:jalanjalan/day34/views/dashboard_screen.dart';
+import 'package:jalanjalan/day34/views/history/history_screen.dart';
+import 'package:jalanjalan/day34/views/profils/profile_screen.dart';
+import 'package:jalanjalan/day34/views/settin/setting.dart';
 
 class Bottomnav extends StatefulWidget {
   const Bottomnav({super.key});
@@ -22,7 +23,7 @@ class _BottomnavState extends State<Bottomnav> {
     HomeScreen(),
     HistoryScreen(),
     ProfileScreen(),
-    Center(child: Text("Settings")),
+    SettingsScreen(),
   ];
 
   @override

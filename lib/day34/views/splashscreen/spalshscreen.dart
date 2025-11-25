@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jalanjalan/day34/preferens/preference_handler.dart';
-import 'package:jalanjalan/day34/view/login/login.dart';
+import 'package:jalanjalan/day34/views/login/login.dart';
 
 class splashscreen2 extends StatefulWidget {
   const splashscreen2({super.key});
